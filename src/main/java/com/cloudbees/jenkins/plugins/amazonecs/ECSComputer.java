@@ -51,7 +51,7 @@ public class ECSComputer extends AbstractCloudComputer<ECSSlave> {
         super.taskAccepted(executor, task);
         ECSSlave node = this.getNode();
         if(node != null) {
-            node.setJobName(task.getDisplayName());
+            node.setJobName(task.getName());
         }
         LOGGER.log(Level.INFO, "[{0}]: JobName: {1}", new Object[] {this.getName(), task.getDisplayName()});
         LOGGER.log(Level.INFO, "[{0}]: JobUrl: {1}", new Object[] {this.getName(), task.getUrl()});
