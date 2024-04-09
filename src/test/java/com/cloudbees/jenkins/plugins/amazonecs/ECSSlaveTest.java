@@ -63,7 +63,7 @@ public class ECSSlaveTest {
                 null,
                 null,
                 0,
-                false);
+                false, false);
     }
 
     @Test

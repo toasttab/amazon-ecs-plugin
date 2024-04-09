@@ -104,7 +104,7 @@ public class ECSTaskTemplateStepExecutionTest {
                 "override-task-role",
                 null,
                 r.nextInt(123),
-                false);
+                false, false);
 
         // Overriding the entrypoint is inconsistent... why? You can't do it in the step
 //        expected.setEntrypoint("entrypoint-override");
@@ -197,6 +197,6 @@ public class ECSTaskTemplateStepExecutionTest {
                 null,
                 null,
                 0,
-                false);
+                false, false);
     }
 }
