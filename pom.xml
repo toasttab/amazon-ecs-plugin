@@ -44,7 +44,7 @@
         <revision>1.51</revision>
         <changelist>-SNAPSHOT</changelist>
         <jenkins.version>2.387.3</jenkins.version>
-        <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
+        <gitHubRepo>toasttab/${project.artifactId}-plugin</gitHubRepo>
     </properties>
 
     <developers>
