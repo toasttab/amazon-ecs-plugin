@@ -353,6 +353,10 @@ public class ECSTaskTemplate extends AbstractDescribableImpl<ECSTaskTemplate> im
      */
     private boolean enableExecuteCommand;
 
+    private boolean useSessionTags;
+
+    private String pipelineName;
+
     @DataBoundConstructor
     public ECSTaskTemplate(String templateName,
                            @Nullable String label,
@@ -393,7 +397,9 @@ public class ECSTaskTemplate extends AbstractDescribableImpl<ECSTaskTemplate> im
                            @Nullable String taskrole,
                            @Nullable String inheritFrom,
                            int sharedMemorySize,
-                           boolean enableExecuteCommand) {
+                           boolean enableExecuteCommand,
+                           boolean useSessionTags,
+                           @Nullable String pipelineName) {
         // if the user enters a task definition override, always prefer to use it, rather than the jenkins template.
         if (taskDefinitionOverride != null && !taskDefinitionOverride.trim().isEmpty()) {
             this.taskDefinitionOverride = taskDefinitionOverride.trim();
@@ -456,6 +462,8 @@ public class ECSTaskTemplate extends AbstractDescribableImpl<ECSTaskTemplate> im
         this.sharedMemorySize = sharedMemorySize;
         this.dynamicTaskDefinitionOverride = StringUtils.trimToNull(dynamicTaskDefinitionOverride);
         this.enableExecuteCommand = enableExecuteCommand;
+        this.useSessionTags = useSessionTags;
+        this.pipelineName = pipelineName;
     }
 
     @DataBoundSetter
@@ -687,6 +695,10 @@ public class ECSTaskTemplate extends AbstractDescribableImpl<ECSTaskTemplate> im
     public boolean isEnableExecuteCommand() {
         return enableExecuteCommand;
     }
+
+    public boolean getUseSessionTags() { return useSessionTags; }
+
+    public String getPipelineName() { return pipelineName; }
 
     @Override
     public String toString() {
@@ -924,7 +936,9 @@ public class ECSTaskTemplate extends AbstractDescribableImpl<ECSTaskTemplate> im
                                                        taskrole,
                                                        null,
                                                         sharedMemorySize,
-                                                        enableExecuteCommand);
+                                                        enableExecuteCommand,
+                                                        useSessionTags,
+                                                        pipelineName);
         merged.setLogDriver(logDriver);
         merged.setEntrypoint(entrypoint);
 

@@ -62,6 +62,8 @@ public class ECSTaskTemplateStepExecutionTest {
         clouds.add(cloud);
         step.setOverrides(Arrays.asList("image","taskRole"));
 
+        step.setUseSessionTags(true);
+
         ECSTaskTemplateStepExecution executionStep = new ECSTaskTemplateStepExecution(step, context, (SerializableSupplier<Jenkins.CloudList>) () -> clouds);
         Random r = new Random();
         ECSTaskTemplate expected = new ECSTaskTemplate(
@@ -104,7 +106,7 @@ public class ECSTaskTemplateStepExecutionTest {
                 "override-task-role",
                 null,
                 r.nextInt(123),
-                false);
+                false, false, null);
 
         // Overriding the entrypoint is inconsistent... why? You can't do it in the step
 //        expected.setEntrypoint("entrypoint-override");
@@ -197,6 +199,6 @@ public class ECSTaskTemplateStepExecutionTest {
                 null,
                 null,
                 0,
-                false);
+                false, false, null);
     }
 }
