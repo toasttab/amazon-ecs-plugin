@@ -5,7 +5,9 @@ import com.cloudbees.jenkins.plugins.amazonecs.ECSTaskTemplate;
 import com.cloudbees.jenkins.plugins.amazonecs.SerializableSupplier;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import hudson.AbortException;
+import hudson.model.Run;
 import hudson.slaves.Cloud;
+import java.io.IOException;
 import jenkins.model.Jenkins;
 import org.apache.commons.lang.RandomStringUtils;
 import org.jenkinsci.plugins.workflow.steps.AbstractStepExecutionImpl;
@@ -25,6 +27,7 @@ public class ECSTaskTemplateStepExecution extends AbstractStepExecutionImpl {
 
     @SuppressFBWarnings(value = "SE_TRANSIENT_FIELD_NOT_RESTORED", justification = "not needed on deserialization")
     private final transient ECSTaskTemplateStep     step;
+    private String pipelineName;
     private SerializableSupplier<Jenkins.CloudList> cloudSupplier;
     private @Nonnull String                         cloudName;
 
@@ -35,6 +38,7 @@ public class ECSTaskTemplateStepExecution extends AbstractStepExecutionImpl {
         this.step = ecsTaskTemplateStep;
         this.cloudName = ecsTaskTemplateStep.getCloud();
         this.cloudSupplier = cloudSupplier;
+
     }
 
     @Override
@@ -51,6 +55,11 @@ public class ECSTaskTemplateStepExecution extends AbstractStepExecutionImpl {
         ECSCloud ecsCloud = (ECSCloud) cloud;
         checkAllowedOverrides(ecsCloud, step);
         checkResourceLimits(ecsCloud, step);
+
+        Run<?,?> run = getContext().get(Run.class);
+        if(run != null) {
+            this.pipelineName = run.getParent().getFullName();
+        }
 
         newTemplate = new ECSTaskTemplate(name,
                                           step.getLabel(),
@@ -92,7 +101,8 @@ public class ECSTaskTemplateStepExecution extends AbstractStepExecutionImpl {
                                           step.getInheritFrom(),
                                           step.getSharedMemorySize(),
                                           step.getEnableExecuteCommand(),
-                false);
+                                          true,
+                                          this.pipelineName);
         newTemplate.setLogDriver(step.getLogDriver());
 
         ECSTaskTemplate parentTemplate = ecsCloud.findParentTemplate(parentLabel);

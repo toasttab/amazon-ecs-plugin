@@ -523,8 +523,8 @@ public class ECSService extends BaseAWSService {
             AWSSecurityTokenService stsClient = AWSSecurityTokenServiceClientBuilder.standard()
                     .withRegion(regionName)
                     .build();
-
-            com.amazonaws.services.securitytoken.model.Tag sessionTag = new com.amazonaws.services.securitytoken.model.Tag().withKey("jobNamw").withValue(jobName); // replace with your session tag key and value
+            LOGGER.info("Setting pipelineName tag to " + template.getPipelineName());
+            com.amazonaws.services.securitytoken.model.Tag sessionTag = new com.amazonaws.services.securitytoken.model.Tag().withKey("pipelineName").withValue(template.getPipelineName()); // replace with your session tag key and value
 
             AssumeRoleRequest roleRequest = new AssumeRoleRequest()
                     .withRoleArn(roleArn)

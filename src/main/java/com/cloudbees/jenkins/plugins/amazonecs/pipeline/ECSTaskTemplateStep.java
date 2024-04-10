@@ -92,6 +92,8 @@ public class ECSTaskTemplateStep extends Step implements Serializable {
 
     private List<String> overrides;
 
+    private Boolean useSessionTags;
+
     @DataBoundConstructor
     public ECSTaskTemplateStep(String label, String name) {
 
@@ -466,6 +468,16 @@ public class ECSTaskTemplateStep extends Step implements Serializable {
 
     public List<String> getOverrides() {
         return overrides;
+    }
+
+
+    @DataBoundSetter
+    public void setUseSessionTags(Boolean useSessionTags) {
+        this.useSessionTags = useSessionTags;
+    }
+
+    public Boolean getUseSessionTags() {
+        return useSessionTags;
     }
 
     @Override

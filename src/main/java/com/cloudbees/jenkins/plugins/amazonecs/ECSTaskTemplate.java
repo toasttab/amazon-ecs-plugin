@@ -355,6 +355,8 @@ public class ECSTaskTemplate extends AbstractDescribableImpl<ECSTaskTemplate> im
 
     private boolean useSessionTags;
 
+    private String pipelineName;
+
     @DataBoundConstructor
     public ECSTaskTemplate(String templateName,
                            @Nullable String label,
@@ -396,7 +398,8 @@ public class ECSTaskTemplate extends AbstractDescribableImpl<ECSTaskTemplate> im
                            @Nullable String inheritFrom,
                            int sharedMemorySize,
                            boolean enableExecuteCommand,
-                           boolean useSessionTags) {
+                           boolean useSessionTags,
+                           @Nullable String pipelineName) {
         // if the user enters a task definition override, always prefer to use it, rather than the jenkins template.
         if (taskDefinitionOverride != null && !taskDefinitionOverride.trim().isEmpty()) {
             this.taskDefinitionOverride = taskDefinitionOverride.trim();
@@ -460,6 +463,7 @@ public class ECSTaskTemplate extends AbstractDescribableImpl<ECSTaskTemplate> im
         this.dynamicTaskDefinitionOverride = StringUtils.trimToNull(dynamicTaskDefinitionOverride);
         this.enableExecuteCommand = enableExecuteCommand;
         this.useSessionTags = useSessionTags;
+        this.pipelineName = pipelineName;
     }
 
     @DataBoundSetter
@@ -693,6 +697,8 @@ public class ECSTaskTemplate extends AbstractDescribableImpl<ECSTaskTemplate> im
     }
 
     public boolean getUseSessionTags() { return useSessionTags; }
+
+    public String getPipelineName() { return pipelineName; }
 
     @Override
     public String toString() {
@@ -931,7 +937,8 @@ public class ECSTaskTemplate extends AbstractDescribableImpl<ECSTaskTemplate> im
                                                        null,
                                                         sharedMemorySize,
                                                         enableExecuteCommand,
-                                                        useSessionTags);
+                                                        useSessionTags,
+                                                        pipelineName);
         merged.setLogDriver(logDriver);
         merged.setEntrypoint(entrypoint);
 
